@@ -1,0 +1,5 @@
+export * from "./Text/Text"
+export * from "./Title/Title"
+export * from "./Button/Button"
+export * from "./NavMenu/NavMenu"
+export * from "./Footer/Footer"
