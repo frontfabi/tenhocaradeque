@@ -1,9 +1,8 @@
 import ReactMarkdown from "react-markdown"
 import Moment from "react-moment"
-import { fetchAPI } from "../../lib/api"
-import Layout from "../../components/layout"
 import NextImage from "../../components/image"
 import Seo from "../../components/seo"
+import { fetchAPI } from "../../lib/api"
 import { getStrapiMedia } from "../../lib/media"
 
 const Article = ({ article, categories }) => {
@@ -78,10 +77,16 @@ export async function getStaticProps({ params }) {
     },
     populate: "*",
   })
-  const categoriesRes = await fetchAPI("/categories", { populate: "*" })
-console.log(categoriesRes)
+  const allCategories = await fetchAPI("/categories")
+  
   return {
-    props: { article: articlesRes.data[0], categories: categoriesRes.data },
+    props: { 
+      article: articlesRes.data[0], 
+      categories: allCategories.data.map(categ => ({
+        slug: categ.attributes.slug,
+        name: categ.attributes.name
+      })) 
+  },
     revalidate: 1,
   }
 }

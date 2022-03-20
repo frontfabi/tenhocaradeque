@@ -11,7 +11,8 @@ import theme from "../styles/theme"
 export const GlobalContext = createContext({})
 
 const MyApp = ({ Component, pageProps }) => {
-  const { global, categories } = pageProps
+  const { global, categories, socialmedias } = pageProps
+  console.log(global, socialmedias)
   return (
     <>
       <Head>
@@ -40,9 +41,10 @@ MyApp.getInitialProps = async (ctx) => {
   // Calls page's `getInitialProps` and fills `appProps.pageProps`
   const appProps = await App.getInitialProps(ctx)
   
-  const [categoriesRes, globalRes] = await Promise.all([
+  const [categoriesRes, globalRes, socialMediasRes] = await Promise.all([
     fetchAPI("/categories", { populate: "*" }),
-    fetchAPI("/global", { populate: "*" })
+    fetchAPI("/global", { populate: "*" }),
+    fetchAPI("/socialmedias", { populate: "*" }),
   ])
   
   // Pass the data to our page via props
@@ -54,7 +56,8 @@ MyApp.getInitialProps = async (ctx) => {
     categories: categoriesRes.data.map(cat => ({
       slug: cat.attributes.slug,
       name: cat.attributes.name,
-    }))
+    })),
+    socialmedias: socialMediasRes.data.map(social => social.attributes)
     // .map(category => ({
     //   slug: category.attributes.slug,
     //   name: category.attributes.name,
