@@ -115,5 +115,4 @@ build
 *.env
 frontend/.next/
 frontend/out/
-backend/.cache
-backend/build/
+backend
